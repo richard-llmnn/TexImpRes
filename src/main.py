@@ -22,20 +22,21 @@ class Arguments():
 
 class TreeBuilder():
     @staticmethod
-    def resolve_imports(text):
+    def resolve_imports(text, root_file_path):
         for found_import in re.finditer(r'[.]*@import "[^"]+"', text):
             if text[found_import.start() - 1] == "\\" and text[found_import.start() - 2] != "\\" :
                 continue
             print(found_import)
             file_path = found_import.group().split('"')[-2]
+            file_path = os.path.join(root_file_path, file_path)
             with open(file_path, 'r') as imported_file:
-                TreeBuilder.resolve_imports(imported_file.read())
+                TreeBuilder.resolve_imports(imported_file.read(), os.path.dirname(file_path))
 
 class App():
     def __init__(self):
         args = Arguments()
         with open(args.input_file, 'r') as input_file:
-            TreeBuilder.resolve_imports(input_file.read())
+            TreeBuilder.resolve_imports(input_file.read(), os.path.dirname(args.input_file))
 
 
 
