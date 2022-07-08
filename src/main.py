@@ -1,18 +1,54 @@
 import argparse
 import os.path
 import re
+import Exceptions.TreeResolver as TreeResolverExceptions
 
-def pretty(d, indent=0):
+def pprint(d, indent=0):
     for key, value in d.items():
         print('\t' * indent + str(key))
         if isinstance(value, dict):
-            pretty(value, indent+1)
+            pprint(value, indent+1)
         elif isinstance(value, list):
             for item in value:
                 print('\t' * (indent+1) + str(item))
             print()
         else:
             print('\t' * (indent+1) + str(value))
+
+
+def resolve(importTree, startKey, forbiddenFiles=[]):
+    forbiddenFiles = forbiddenFiles.copy()  # because the array list referenced -> create a copy
+
+    # check if file is already in forbiddenFiles
+    if startKey in forbiddenFiles:
+        forbiddenFiles.append(startKey)  # add the file twice for better traceback design
+        return False, forbiddenFiles
+    # if not -> add the file
+    forbiddenFiles.append(startKey)
+
+    if startKey not in importTree:
+        raise TreeResolverExceptions.MissingFile(f"File \"{startKey}\" was not found in file tree!")
+
+    for fileImport in importTree[startKey]:
+        code, callstack = resolve(importTree, fileImport, forbiddenFiles)
+        if code == False:
+            return False, callstack
+
+    return True, []
+
+
+def resolveHandler(importTree, startKey):
+    cleanedTree = {}
+    for key, value in importTree.items():
+        cleanedTree[key] = list(set(value))
+
+    del importTree
+
+    code, callstack = resolve(cleanedTree, startKey)
+    if code == False:
+        raise TreeResolverExceptions.CycleDetected("Import cycle detected:\n" + " -> ".join(map(str, callstack)))
+    else:
+        return True
 
 class Arguments:
     def __init__(self):
@@ -32,7 +68,11 @@ class Arguments:
     def output_file(self):
         return os.path.abspath(self.__output_file)
 
-class ImportSemantic:
+
+class Semantic:
+    regex = None # Override!
+
+class ImportSemantic(Semantic):
     # static variables
     regex = r'[.]*@import "[^"]+"'
 
@@ -69,6 +109,17 @@ class TreeBuilder:
                 import_file_path = os.path.join(os.path.dirname(file_path), import_file_path)
                 print(f"File '{import_file_path}' added to file tree!")
                 self.file_tree[file_path].append(import_file_path)
+
+                if import_file_path not in self.file_tree:
+                    self.file_tree[import_file_path] = []
+
+                try:
+                    resolveHandler(self.file_tree, self.start_file_path)
+                except Exception as e:
+                    print(str(e))
+                    exit()
+
+
                 self.resolve_imports(import_file_path)
 
 class App:
@@ -76,7 +127,7 @@ class App:
         args = Arguments()
         tree_bulder = TreeBuilder(args.input_file)
         tree_bulder.resolve_imports()
-        pretty(tree_bulder.file_tree)
+        pprint(tree_bulder.file_tree)
 
 
 def main():
