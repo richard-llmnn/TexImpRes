@@ -1,5 +1,6 @@
-class CycleDetected(Exception):
+from .AbstractException import AbstractException
+class CycleDetected(AbstractException):
     pass
 
-class MissingFile(Exception):
+class MissingFile(AbstractException):
     pass

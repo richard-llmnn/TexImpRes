@@ -2,6 +2,7 @@ import argparse
 import os.path
 import re
 import Exceptions.TreeResolver as TreeResolverExceptions
+import Exceptions.File as FileExceptions
 
 def pprint(d, indent=0):
     for key, value in d.items():
@@ -27,7 +28,7 @@ def resolve(importTree, startKey, forbiddenFiles=[]):
     forbiddenFiles.append(startKey)
 
     if startKey not in importTree:
-        raise TreeResolverExceptions.MissingFile(f"File \"{startKey}\" was not found in file tree!")
+        raise TreeResolverExceptions.MissingFile(f"File \"{startKey}\" was not found in file tree")
 
     for fileImport in importTree[startKey]:
         code, callstack = resolve(importTree, fileImport, forbiddenFiles)
@@ -107,10 +108,13 @@ class TreeBuilder:
 
                 import_file_path = found_import.group().split('"')[-2]
                 import_file_path = os.path.join(os.path.dirname(file_path), import_file_path)
+                import_file_path = os.path.abspath(import_file_path)
                 print(f"File '{import_file_path}' added to file tree!")
                 self.file_tree[file_path].append(import_file_path)
 
                 if import_file_path not in self.file_tree:
+                    if not os.path.exists(import_file_path):
+                        raise FileExceptions.FileNotFound(f"File \"{import_file_path}\" was not found in \"{file_path}\"")
                     self.file_tree[import_file_path] = []
 
                 try:
@@ -125,9 +129,14 @@ class TreeBuilder:
 class App:
     def __init__(self):
         args = Arguments()
-        tree_bulder = TreeBuilder(args.input_file)
-        tree_bulder.resolve_imports()
-        pprint(tree_bulder.file_tree)
+        tree_builder = TreeBuilder(args.input_file)
+
+        try:
+            tree_builder.resolve_imports()
+        except Exception as e:
+            print(str(e))
+            exit()
+        pprint(tree_builder.file_tree)
 
 
 def main():
