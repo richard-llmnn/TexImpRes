@@ -1,0 +1,2 @@
+Hello $NAME, nice to meet you!
+Today is the $DATE : $TIME.
