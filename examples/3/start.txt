@@ -1,0 +1,8 @@
+@comment Include variable file
+@import "variables.txt"
+@comment use the variables within the say_hello.txt file
+@import "say_hello.txt"
+@comment override the variable NAME
+@var NAME = "FooBarBaz"
+@comment say hello second time
+@import "say_hello.txt"

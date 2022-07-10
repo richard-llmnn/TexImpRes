@@ -1,0 +1,3 @@
+@var NAME = "X AE A-XII" @comment define variable NAME with value
+@var DATE = "29-02-2028"
+@var TIME = "12:34:56"
