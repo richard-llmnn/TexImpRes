@@ -4,12 +4,11 @@ import prettyprint.pprint as pprint
 
 class App:
     def __init__(self):
-        args = Arguments.Arguments()
-        tree_builder = TreeBuilder.TreeBuilder(args.input_file)
+        self.args = Arguments.Arguments()
 
-        try:
-            tree_builder.resolve_imports()
-        except Exception as e:
-            print(str(e))
-            exit()
-        pprint.pprint(tree_builder.file_tree)
+    def run(self):
+        self.check_import_tree()
+
+    def check_import_tree(self):
+        tree_builder = TreeBuilder.TreeBuilder(self.args.input_file)
+        tree_builder.resolve_imports()
