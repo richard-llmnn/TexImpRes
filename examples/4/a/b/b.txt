@@ -1,0 +1,2 @@
+b
+@import "c/c.txt"

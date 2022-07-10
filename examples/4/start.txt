@@ -1,0 +1,4 @@
+Numbers from 1 to 3:
+@import "1/1.txt"
+Letters from a to c:
+@import "a/a.txt"
