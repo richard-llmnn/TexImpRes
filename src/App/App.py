@@ -1,6 +1,5 @@
 import Arguments.Arguments as Arguments
-import TreeBuilder.TreeBuilder as TreeBuilder
-import prettyprint.pprint as pprint
+from SemanticFunctions.Import import TreeBuilder
 
 class App:
     def __init__(self):
@@ -12,3 +11,6 @@ class App:
     def check_import_tree(self):
         tree_builder = TreeBuilder.TreeBuilder(self.args.input_file)
         tree_builder.resolve_imports()
+
+    def resolve_all_imports(self):
+        pass

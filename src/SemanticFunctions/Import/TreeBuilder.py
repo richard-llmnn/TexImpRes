@@ -1,7 +1,8 @@
-import TreeBuilder.resolve as resolve
+from .resolve import *
 import os.path
 import Exceptions.File as FileExceptions
-import Semantic.Import as ImportSemantic
+import Semantic.ImportSemantic as ImportSemantic
+
 
 class TreeBuilder:
 
@@ -34,7 +35,7 @@ class TreeBuilder:
                     self.file_tree[import_file_path] = []
 
                 try:
-                    resolve.resolve_handler(self.file_tree, self.start_file_path)
+                    resolve_handler(self.file_tree, self.start_file_path)
                 except Exception as e:
                     print(str(e))
                     exit()
