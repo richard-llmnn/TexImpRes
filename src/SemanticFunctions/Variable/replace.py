@@ -6,7 +6,7 @@ def replace(file_content):
     semantics = DefineVariableSemantic.DefineVariableSemantic(file_content)
     for found_variable in semantics.get_all():
         if file_content[found_variable.start() - 1] == "\\" and file_content[found_variable.start() - 2] != "\\":
-            pass
+            continue
         variables.append({
             "key": found_variable.group().split()[1],
             "value": found_variable.group().split('"')[1],
@@ -16,12 +16,19 @@ def replace(file_content):
     variables.sort(key=lambda v: v["start"], reverse=True)
     for variable in variables:
         start_from = variable["end"]
-        for found_variable in VariableSemantic.VariableSemantic(file_content[start_from:]).get_all():
+        matches = list(VariableSemantic.VariableSemantic(file_content[start_from:]).get_all())
+        matches.reverse()
+        for found_variable in matches:
+            if file_content[found_variable.start() - 1] == "\\" and file_content[found_variable.start() - 2] != "\\":
+                skipped=True
+                continue
+            skipped=False
             file_content = file_content[:found_variable.start()+start_from] + \
                 variable["value"] + \
                 file_content[found_variable.end()+start_from:]
-        file_content = file_content[:variable["start"]] + \
-            file_content[variable["end"]:]
+        if not skipped:
+            file_content = file_content[:variable["start"]] + \
+                file_content[variable["end"]:]
     
     print(file_content)
 

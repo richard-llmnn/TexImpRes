@@ -4,8 +4,10 @@
 $NAME
 @import "say_hello.txt"
 @comment override the variable NAME
-@var NAME = "FooBarBaz"
+\@var NAME = "FooBarBaz"
 Hello $NAME
+Hello \$NAME
+Hello \\$NAME
 @var NAME = "FooBasss"
 @comment say hello second time
 @import "say_hello.txt"
