@@ -1,8 +1,15 @@
 @comment Include variable file
 @import "variables.txt"
 @comment use the variables within the say_hello.txt file
+$NAME
 @import "say_hello.txt"
 @comment override the variable NAME
-@var NAME = "FooBarBaz"
+\@var NAME = "FooBarBaz"
+\\@var NAME = "FooBarBaz"
+Hello $NAME
+Hello \$NAME
+Hello \\$NAME
+@var NAME = "FooBasss"
 @comment say hello second time
 @import "say_hello.txt"
+Hello $NAME
