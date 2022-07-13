@@ -1,0 +1,6 @@
+@var ID = "1"
+@var first_name = "Florencia"
+@var last_name = "Bulluck"
+@var email = "fbulluck0@pinterest.com"
+@var gender = "Female"
+@var balance = "€6619,77"

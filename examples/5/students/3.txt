@@ -1,0 +1,6 @@
+@var ID = "3"
+@var first_name = "Kennifeck"
+@var last_name = "Piwall"
+@var email = "nkennifeck2@admin.ch"
+@var gender = "Male"
+@var balance = "€7609,42"

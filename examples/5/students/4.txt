@@ -1,0 +1,6 @@
+@var ID = "4"
+@var first_name = "Sonya"
+@var last_name = "Burn"
+@var email = "s.burn@google.com"
+@var gender = "Female"
+@var balance = "€43892,23"
