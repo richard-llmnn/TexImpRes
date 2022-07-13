@@ -1,0 +1,11 @@
+X AE A-XII
+Hello X AE A-XII, nice to meet you!
+Today is the 29-02-2028 : 12:34:56.
+@var NAME = "FooBarBaz"
+\@var NAME = "FooBarBaz"
+Hello FooBarBaz
+Hello $NAME
+Hello \FooBarBaz
+Hello FooBasss, nice to meet you!
+Today is the 29-02-2028 : 12:34:56.
+Hello FooBasss
