@@ -1,2 +1,2 @@
 class Semantic:
-    regex = None # Override!
+    regex = None  # Override!

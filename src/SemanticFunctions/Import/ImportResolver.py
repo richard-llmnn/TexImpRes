@@ -20,9 +20,14 @@ class ImportResolver:
         found_imports.reverse()
 
         for found_import in found_imports:
-            if file_content[found_import.start() - 1] == "\\" and file_content[found_import.start() - 2] != "\\":
-                file_content = file_content[:found_import.start() - 1] + file_content[found_import.start():]
-
+            if (
+                file_content[found_import.start() - 1] == "\\"
+                and file_content[found_import.start() - 2] != "\\"
+            ):
+                file_content = (
+                    file_content[: found_import.start() - 1]
+                    + file_content[found_import.start() :]
+                )
 
         return file_content
 
@@ -31,20 +36,29 @@ class ImportResolver:
         found_imports.reverse()
 
         for found_import in found_imports:
-            if file_content[found_import.start() - 1] == "\\" and file_content[found_import.start() - 2] != "\\":
+            if (
+                file_content[found_import.start() - 1] == "\\"
+                and file_content[found_import.start() - 2] != "\\"
+            ):
                 continue
             import_rel_path = found_import.group().split('"')[-2]
             import_abs_path = self.create_rel_path(current_abs_path, import_rel_path)
 
             file = open(import_abs_path, "r")
-            import_file_content = self.recursive_resolve_files(file.read(), import_abs_path)
+            import_file_content = self.recursive_resolve_files(
+                file.read(), import_abs_path
+            )
             file.close()
 
             offset = 0
             if file_content[found_import.start() - 2 : found_import.start()] == "\\\\":
                 offset = 1
 
-            file_content = file_content[0:found_import.start() - offset] + import_file_content + file_content[found_import.end():]
+            file_content = (
+                file_content[0 : found_import.start() - offset]
+                + import_file_content
+                + file_content[found_import.end() :]
+            )
 
         return file_content
 
