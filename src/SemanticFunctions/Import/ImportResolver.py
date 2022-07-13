@@ -12,10 +12,8 @@ class ImportResolver:
             file_content = entry_file.read()
 
         file_content = self.recursive_resolve_files(file_content, self.entry_file_path)
-        file_content = self.remove_escaped_imports(file_content)
 
-        with open(self.output_file_path, "w") as output_file:
-            output_file.write(file_content)
+        return self.remove_escaped_imports(file_content)
 
     def remove_escaped_imports(self, file_content):
         found_imports = list(ImportSemantic.ImportSemantic(file_content).get_all())

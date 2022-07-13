@@ -9,25 +9,20 @@ class App:
 
     def run(self):
         self.check_import_tree()
-        self.resolve_all_imports()
-        with open(self.args.output_file, "r+") as f: # replace comments
-            text = f.read()
+        with open(self.args.output_file, "w") as f: # replace comments
+            text = self.resolve_all_imports()
             text = re.sub(r"^@comment.*\n", "", text, flags=re.M)
             text = re.sub(r"@comment.*", "", text)
-            print(text)
             text = self.resolve_all_variables(text)
-            print(text)
-            # print(text)
+            f.write(text)
 
 
     def check_import_tree(self):
         tree_builder = TreeBuilder.TreeBuilder(self.args.input_file)
         tree_builder.resolve_imports()
 
-
-
     def resolve_all_imports(self):
-        (ImportResolver.ImportResolver(self.args.input_file, self.args.output_file)).run()
+        return (ImportResolver.ImportResolver(self.args.input_file, self.args.output_file)).run()
 
     def resolve_all_variables(self, text):
         return (VariableResolver.VariableResolver().replace(text))
