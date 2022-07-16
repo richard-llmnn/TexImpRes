@@ -3,6 +3,7 @@ import re
 
 
 class VariableSemantic(AbstractSemantic.Semantic):
+
     def __init__(self, file_content, name):
         self.file_content = file_content
         self.regex = f"\${name}"
