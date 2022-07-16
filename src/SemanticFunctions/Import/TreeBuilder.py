@@ -1,7 +1,7 @@
 from .resolve import *
 import os.path
 import Exceptions.File as FileExceptions
-import Semantic.ImportSemantic as ImportSemantic
+import Semantic.ImportInlineSemantic as ImportInlineSemantic
 
 
 class TreeBuilder:
@@ -17,7 +17,7 @@ class TreeBuilder:
 
         with open(file_path, "r") as imported_file:
             file_content = imported_file.read()
-            import_resolver = ImportSemantic.ImportSemantic(file_content)
+            import_resolver = ImportInlineSemantic.ImportInlineSemantic(file_content)
             for found_import in import_resolver.get_all():
                 if (
                     file_content[found_import.start() - 1] == "\\"
@@ -30,7 +30,7 @@ class TreeBuilder:
                     os.path.dirname(file_path), import_file_path
                 )
                 import_file_path = os.path.abspath(import_file_path)
-                print(f"File '{import_file_path}' added to file tree!")
+                #print(f"File '{import_file_path}' added to file tree!")
                 self.file_tree[file_path].append(import_file_path)
 
                 if import_file_path not in self.file_tree:
