@@ -3,9 +3,8 @@ import os.path
 
 
 class ImportResolver:
-    def __init__(self, entry_file_path, output_file_path):
+    def __init__(self, entry_file_path):
         self.entry_file_path = entry_file_path
-        self.output_file_path = output_file_path
 
     def run(self):
         with open(self.entry_file_path, "r") as entry_file:
