@@ -12,4 +12,5 @@ Hello \\$NAME
 @var NAME = "FooBasss"
 @comment say hello second time
 @import "say_hello.txt"
+
 Hello $NAME

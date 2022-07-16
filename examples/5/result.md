@@ -6,14 +6,14 @@ ___
 - Last name: Bulluck
 - Email: [Florencia's email](fbulluck0@pinterest.com)
 - Gender: Female
-- Balance: *€6619,77*
+- Balance: *€6619,77* 
 ### Student number **2**
 ![](https://cataas.com/cat/says/I%20am%20student%20number:%202?size=30&color=black)
 - First name: Caralie
 - Last name: Piwall
 - Email: [Caralie's email](cpiwall1@paginegialle.it)
 - Gender: Female
-- Balance: *€902,43*
+- Balance: *€902,43* 
 ### Student number **3**
 ![](https://cataas.com/cat/says/I%20am%20student%20number:%203?size=30&color=black)
 - First name: Kennifeck
