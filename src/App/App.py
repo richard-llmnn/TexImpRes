@@ -18,6 +18,8 @@ class App:
         with open(self.args.output_file, "w") as output_pointer:
             output_pointer.write(file_content)
 
+        print(f"Compiled file was saved to {self.args.output_file}.")
+
     # check for import cycles
     def check_import_tree(self):
         tree_builder = TreeBuilder.TreeBuilder(self.args.input_file)

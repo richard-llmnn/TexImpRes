@@ -30,7 +30,7 @@ class TreeBuilder:
                     os.path.dirname(file_path), import_file_path
                 )
                 import_file_path = os.path.abspath(import_file_path)
-                #print(f"File '{import_file_path}' added to file tree!")
+                print(f"File '{import_file_path}' added!")
                 self.file_tree[file_path].append(import_file_path)
 
                 if import_file_path not in self.file_tree:

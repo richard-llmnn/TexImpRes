@@ -10,7 +10,6 @@ class Arguments:
         args = parser.parse_args().__dict__
         self.__input_file = args["<input>"]
         self.__output_file = args["<output>"]
-        print(self.__dict__)
 
     @property
     def input_file(self):
